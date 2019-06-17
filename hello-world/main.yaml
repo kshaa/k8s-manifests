@@ -1,0 +1,48 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-kubernetes
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hello-kubernetes
+  template:
+    metadata:
+      labels:
+        app: hello-kubernetes
+    spec:
+      containers:
+      - name: hello-kubernetes
+        image: paulbouwer/hello-kubernetes:1.5
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-kubernetes
+spec:
+  selector:
+    app: hello-kubernetes
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: hello-kubernetes
+  annotations:
+    kubernetes.io/ingress.class: "public"
+spec:
+  rules:
+  - host: hello.svc.k8sd.veinbahs.lv
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: hello-kubernetes
+          servicePort: http

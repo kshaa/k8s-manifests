@@ -1,0 +1,53 @@
+# Deployment of all containers
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kuard-deployment
+  labels:
+    app: kuard
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kuard
+  template:
+    metadata:
+      labels:
+        app: kuard
+    spec:
+      containers:
+      - name: kuard
+        image: gcr.io/kuar-demo/kuard-amd64:1
+        ports:
+        - containerPort: 8080
+---
+# Expose container (to cluster - undeclared, but default service type ClusterPort or smth)
+apiVersion: v1
+kind: Service
+metadata:
+  name: kuard-service
+spec:
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 8080
+  selector:
+    app: kuard
+---
+# Link a hostname with a service
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kuard-ingress
+  annotations:
+    kubernetes.io/ingress.class: public
+spec:
+  rules:
+  - host: kuard.svc.k8sd.veinbahs.lv
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: kuard-service
+          servicePort: http
