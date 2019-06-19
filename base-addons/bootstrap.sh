@@ -52,3 +52,7 @@ kubectl apply -f ssl-permission-workaround.yaml
 
 ### Staging & production LetsEncrypt SSL cert issuers
 kubectl apply -f ssl-issuers.yaml
+
+## K8s Dashboard
+helm install --wait -f dashboard-cfg.yaml --name dashy-mc-dash --namespace kube-system stable/kubernetes-dashboard
+kubectl apply -f dashboard.yaml

@@ -1,0 +1,3 @@
+service:
+  internalPort: 8443
+  externalPort: 8443
