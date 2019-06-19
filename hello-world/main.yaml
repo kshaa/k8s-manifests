@@ -1,3 +1,21 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: hello-cert
+  namespace: default
+spec:
+  secretName: hello-cert-secret
+  issuerRef:
+    name: letsencrypt-prod
+  commonName: hello.svc.k8sd.veinbahs.lv
+  dnsNames:
+  - hello.svc.k8sd.veinbahs.lv
+  acme:
+    config:
+    - http01:
+        ingressClass: public
+      domains:
+      - hello.svc.k8sd.veinbahs.lv
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -38,6 +56,12 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "public"
 spec:
+  # START | Add TLS
+  tls:
+  - hosts:
+    - hello.svc.k8sd.veinbahs.lv
+    secretName: hello-cert-secret
+  # END | Add TLS
   rules:
   - host: hello.svc.k8sd.veinbahs.lv
     http:
