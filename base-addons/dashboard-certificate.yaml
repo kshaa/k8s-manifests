@@ -1,0 +1,19 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: dashboard-cert
+  namespace: kube-system
+spec:
+  secretName: dashy-mc-dash-face
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: dashboard.svc.k8sd.veinbahs.lv
+  dnsNames:
+  - dashboard.svc.k8sd.veinbahs.lv
+  acme:
+    config:
+    - http01:
+        ingressClass: public
+      domains:
+      - dashboard.svc.k8sd.veinbahs.lv

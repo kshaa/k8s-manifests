@@ -25,6 +25,7 @@ kubectl apply -R -f typhoon/addons/nginx-ingress/digital-ocean
 echo "Setting up Helm"
 kubectl apply -f tiller-rbac.yaml
 ### --wait flag should keep the command running until the Tiller pods are up
+### This tends to be very slow
 helm init --wait --service-account tiller
 
 ## NFS Share object
@@ -54,5 +55,6 @@ kubectl apply -f ssl-permission-workaround.yaml
 kubectl apply -f ssl-issuers.yaml
 
 ## K8s Dashboard
+kubectl apply -f dashboard-admin.yaml
+kubectl apply -f dashboard-certificate.yaml
 helm install --wait -f dashboard-cfg.yaml --name dashy-mc-dash --namespace kube-system stable/kubernetes-dashboard
-kubectl apply -f dashboard.yaml

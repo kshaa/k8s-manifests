@@ -1,3 +1,17 @@
+# Pretty sure this is only within the cluster
+# The Ingress uses TLS
+enableInsecureLogin: true
+
 service:
-  internalPort: 8443
-  externalPort: 8443
+  internalPort: 9090
+  externalPort: 9090
+ingress:
+  enabled: true
+  annotations: 
+    kubernetes.io/ingress.class: public
+  tls:
+  - hosts:
+    - dashboard.svc.k8sd.veinbahs.lv
+    secretName: dashy-mc-dash-face
+  hosts:	
+  - dashboard.svc.k8sd.veinbahs.lv
