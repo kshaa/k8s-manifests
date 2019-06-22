@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# !! Tiller & cert-manager take time, be patient
+
 # Fail whole script on any error
 set -eu
 

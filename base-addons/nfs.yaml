@@ -7,7 +7,7 @@ spec:
     storage: 100Gi
   accessModes:
     - ReadWriteMany
-  persistentVolumeReclaimPolicy: Recycle # Reclaim policies are defined below 
+  persistentVolumeReclaimPolicy: Recycle 
   nfs:
     server: nfs.veinbahs.lv
     path: /volume1/Dawsbury
